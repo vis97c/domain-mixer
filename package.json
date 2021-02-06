@@ -1,0 +1,80 @@
+{
+  "name": "dominios",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serve": "^11.3.2",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.0.5"
+  },
+  "eslintConfig": {
+    "root": true,
+    "parserOptions": {
+      "parser": "babel-eslint",
+      "sourceType": "module",
+      "allowImportExportEverywhere": false,
+      "ecmaVersion": 2018,
+      "ecmaFeatures": {
+        "globalReturn": false
+      }
+    },
+    "env": {
+      "node": true,
+      "browser": true
+    },
+    "extends": [
+      "plugin:vue/recommended",
+      "plugin:jsdoc/recommended",
+      "eslint:recommended"
+    ],
+    "plugins": [
+      "prettier",
+      "vue",
+      "jsdoc",
+      "nuxt"
+    ],
+    "rules": {
+      "no-extra-boolean-cast": "off",
+      "prettier/prettier": [
+        "error",
+        {
+          "endOfLine": "auto"
+        }
+      ],
+      "no-mixed-spaces-and-tabs": [
+        "warn",
+        "smart-tabs"
+      ],
+      "no-unused-vars": "warn"
+    },
+    "globals": {
+      "$": "writable"
+    }
+  },
+  "prettier": {
+    "printWidth": 120,
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "useTabs": true,
+    "endOfLine": "auto",
+    "htmlWhitespaceSensitivity": "ignore",
+    "requirePragma": true,
+    "insertPragma": false
+  },
+  "browserslist": [
+    "defaults",
+    "not ie < 11",
+    "last 2 versions",
+    "> 1%",
+    "iOS 7",
+    "last 3 iOS versions"
+  ]
+}

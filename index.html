@@ -1,0 +1,71 @@
+<!-- @format -->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Dominios</title>
+		<!-- Google Fonts -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
+		<!-- CSS Reset -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
+		<!-- Milligram CSS -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css" />
+
+		<style>
+			main {
+				padding: 20px;
+			}
+			ul {
+				margin: 0 auto;
+				max-width: 480px;
+			}
+		</style>
+	</head>
+	<body>
+		Cargando...
+		<script type="text/javascript">
+			(async () => {
+				const results = {};
+				const dominios = await fetch("dominios.json")
+					.then((data) => data.json())
+					.then((data) => data);
+				const palabras = await fetch("palabras.json")
+					.then((data) => data.json())
+					.then((data) => data);
+				const palabrasFiltradas = palabras.filter((word) => word.length > 3);
+				dominios.forEach((domain) => {
+					const mix = [],
+						undotDomain = domain.replace(".", "");
+					palabrasFiltradas.forEach((word) => {
+						const normalized = word.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+						if (
+							normalized.substr(-1 * undotDomain.length) == undotDomain &&
+							normalized.length - undotDomain.length > 0
+						) {
+							const prefix = normalized.substr(0, normalized.length - undotDomain.length);
+							// filter long ones out
+							if (`${prefix}.${domain}`.length > 10) return;
+							mix.push(prefix);
+						}
+						return;
+					});
+					if (mix.length) return (results[domain] = mix);
+				});
+				let html = "";
+				for (const key in results) {
+					let content = "";
+
+					for (let i = 0; i < results[key].length; i++) {
+						content += `<li><b>${results[key][i]}</b>.${key}</li>`;
+					}
+					html += `<h2><b>.${key}</b></h2><h3><ul>${content}</ul></h3><hr>`;
+				}
+				document.body.innerHTML = `<main><h1>Posibles dominios</h1><div>${html}</div></main>`;
+
+				// Posible improvement verificar si todos existen y/o estan registrados con alguna api
+			})();
+		</script>
+	</body>
+</html>
